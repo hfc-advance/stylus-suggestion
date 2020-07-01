@@ -3,7 +3,7 @@
   "displayName": "stylus-suggestion",
   "description": "Stylus language support",
   "version": "1.0.1",
-  "publisher": "hfc",
+  "publisher": "hfcui",
   "engines": {
     "vscode": "^1.8.0"
   },
