@@ -1,10 +1,9 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const vscode_1 = require("vscode");
+const vs = require("vscode");
 const parser_1 = require("./parser");
 const utils_1 = require("./utils");
-const fs = require("fs");
-const os = require("os");
 const cssSchema = require("./css-schema");
 const built_in_1 = require("./built-in");
 const languageFacts_1 = require("./languageFacts");
@@ -191,6 +190,13 @@ function getValues(cssSchema, currentWord) {
     });
 }
 exports.getValues = getValues;
+function getProjectFolder() {
+    const folder = vs.workspace.workspaceFolders ? vs.workspace.workspaceFolders[0] : null;
+    if (folder) {
+        return folder.uri.fsPath || null;
+    }
+    return null;
+}
 class StylusCompletion {
     provideCompletionItems(document, position, token) {
         const start = new vscode_1.Position(position.line, 0);
@@ -199,15 +205,16 @@ class StylusCompletion {
         const config = vscode_1.workspace.getConfiguration('languageStylus');
         let text = document.getText();
         // 读取关联文件
-        const files = config.get('files', []) || [];
-        if (files.length) {
-            text = files.reduce((preValue, file) => {
-                if (fs.existsSync(file)) {
-                    preValue += `${os.EOL}${fs.readFileSync(file, 'utf8')}`;
-                }
-                return preValue;
-            }, text);
-        }
+        // const files = config.get('files', []) || []
+        // if (files.length) {
+        //   text = files.reduce((preValue, file) => {
+        //     file = file.replace('${folder}', getProjectFolder())
+        //     if (fs.existsSync(file)) {
+        //       preValue += `${os.EOL}${fs.readFileSync(file ,'utf8')}`
+        //     }
+        //     return preValue
+        //   }, text)
+        // }
         const value = isValue(cssSchema, currentWord);
         let symbols = [], atRules = [], properties = [], values = [];
         if (value) {

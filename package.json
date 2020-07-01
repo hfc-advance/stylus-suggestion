@@ -14,7 +14,8 @@
     "stylus"
   ],
   "activationEvents": [
-    "onLanguage:stylus"
+    "onLanguage:stylus",
+    "onLanguage:vue"
   ],
   "categories": [
     "Languages"
@@ -84,7 +85,7 @@
     }
   },
   "dependencies": {
-    "stylus": "0.54.5",
+    "stylus": "^0.54.7",
     "vscode-css-languageservice": "^3.0.12"
   },
   "repository": {

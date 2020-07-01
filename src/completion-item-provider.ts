@@ -3,6 +3,7 @@ import {
   TextDocument, Position, CancellationToken, Range,
   workspace
 } from 'vscode';
+import * as vs from 'vscode'
 
 import {
   StylusNode,
@@ -231,6 +232,14 @@ export function getValues(cssSchema, currentWord:string) : CompletionItem[] {
   });
 }
 
+function getProjectFolder () {
+  const folder = vs.workspace.workspaceFolders ? vs.workspace.workspaceFolders[0] : null
+  if (folder) {
+    return folder.uri.fsPath || null
+  }
+  return null
+}
+
 class StylusCompletion implements CompletionItemProvider {
   provideCompletionItems(document: TextDocument, position: Position, token: CancellationToken) : CompletionItem[] {
     const start = new Position(position.line, 0);
@@ -240,15 +249,16 @@ class StylusCompletion implements CompletionItemProvider {
     let text = document.getText();
 
     // 读取关联文件
-    const files = config.get('files', []) || []
-    if (files.length) {
-      text = files.reduce((preValue, file) => {
-        if (fs.existsSync(file)) {
-          preValue += `${os.EOL}${fs.readFileSync(file ,'utf8')}`
-        }
-        return preValue
-      }, text)
-    }
+    // const files = config.get('files', []) || []
+    // if (files.length) {
+    //   text = files.reduce((preValue, file) => {
+    //     file = file.replace('${folder}', getProjectFolder())
+    //     if (fs.existsSync(file)) {
+    //       preValue += `${os.EOL}${fs.readFileSync(file ,'utf8')}`
+    //     }
+    //     return preValue
+    //   }, text)
+    // }
     const value = isValue(cssSchema, currentWord);
 
     let symbols = [],
