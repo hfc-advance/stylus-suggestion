@@ -3,7 +3,7 @@
   "displayName": "stylus-suggestion",
   "description": "Stylus language support",
   "version": "1.0.2",
-  "publisher": "hfcui",
+  "publisher": "崔海峰",
   "engines": {
     "vscode": "^1.8.0"
   },
