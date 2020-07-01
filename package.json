@@ -2,7 +2,7 @@
   "name": "stylus-suggestion",
   "displayName": "stylus-suggestion",
   "description": "Stylus language support",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "publisher": "hfcui",
   "engines": {
     "vscode": "^1.8.0"
