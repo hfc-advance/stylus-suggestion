@@ -246,19 +246,19 @@ class StylusCompletion implements CompletionItemProvider {
     const range = new Range(start, position);
     const currentWord = document.getText(range).trim();
     const config = workspace.getConfiguration('languageStylus');
-    let text = document.getText();
+    let text = ''
 
     // 读取关联文件
-    // const files = config.get('files', []) || []
-    // if (files.length) {
-    //   text = files.reduce((preValue, file) => {
-    //     file = file.replace('${folder}', getProjectFolder())
-    //     if (fs.existsSync(file)) {
-    //       preValue += `${os.EOL}${fs.readFileSync(file ,'utf8')}`
-    //     }
-    //     return preValue
-    //   }, text)
-    // }
+    const files = config.get('files', []) || []
+    if (files.length) {
+      text = files.reduce((preValue, file) => {
+        file = file.replace('${folder}', getProjectFolder())
+        if (fs.existsSync(file)) {
+          preValue += `${os.EOL}${fs.readFileSync(file ,'utf8')}`
+        }
+        return preValue
+      }, text)
+    }
     const value = isValue(cssSchema, currentWord);
 
     let symbols = [],

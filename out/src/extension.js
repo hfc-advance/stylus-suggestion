@@ -10,6 +10,10 @@ const DOCUMENT_SELECTOR = {
     language: 'stylus',
     scheme: 'file'
 };
+const DOCUMENT_SELECTOR_VUE = {
+    language: 'vue',
+    scheme: 'file'
+};
 // this method is called when your extension is activated
 // your extension is activated the very first time the command is executed
 function activate(context) {
@@ -18,7 +22,7 @@ function activate(context) {
     const config = vscode.workspace.getConfiguration('languageStylus');
     const completionItemProvider = new completion_item_provider_1.default();
     const completionProviderDisposable = vscode.languages
-        .registerCompletionItemProvider(DOCUMENT_SELECTOR, completionItemProvider, '\\.', '$', '-', '&', '@');
+        .registerCompletionItemProvider([DOCUMENT_SELECTOR, DOCUMENT_SELECTOR_VUE], completionItemProvider, '\\.', '$', '-', '&', '@');
     context.subscriptions.push(completionProviderDisposable);
     vscode.languages.setLanguageConfiguration('stylus', {
         wordPattern: /(#?-?\d*\.\d\w*%?)|([$@#!.:]?[\w-?]+%?)|[$@#!.]/g,

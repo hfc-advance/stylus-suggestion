@@ -4,6 +4,8 @@ const vscode_1 = require("vscode");
 const vs = require("vscode");
 const parser_1 = require("./parser");
 const utils_1 = require("./utils");
+const fs = require("fs");
+const os = require("os");
 const cssSchema = require("./css-schema");
 const built_in_1 = require("./built-in");
 const languageFacts_1 = require("./languageFacts");
@@ -203,18 +205,18 @@ class StylusCompletion {
         const range = new vscode_1.Range(start, position);
         const currentWord = document.getText(range).trim();
         const config = vscode_1.workspace.getConfiguration('languageStylus');
-        let text = document.getText();
+        let text = '';
         // 读取关联文件
-        // const files = config.get('files', []) || []
-        // if (files.length) {
-        //   text = files.reduce((preValue, file) => {
-        //     file = file.replace('${folder}', getProjectFolder())
-        //     if (fs.existsSync(file)) {
-        //       preValue += `${os.EOL}${fs.readFileSync(file ,'utf8')}`
-        //     }
-        //     return preValue
-        //   }, text)
-        // }
+        const files = config.get('files', []) || [];
+        if (files.length) {
+            text = files.reduce((preValue, file) => {
+                file = file.replace('${folder}', getProjectFolder());
+                if (fs.existsSync(file)) {
+                    preValue += `${os.EOL}${fs.readFileSync(file, 'utf8')}`;
+                }
+                return preValue;
+            }, text);
+        }
         const value = isValue(cssSchema, currentWord);
         let symbols = [], atRules = [], properties = [], values = [];
         if (value) {
